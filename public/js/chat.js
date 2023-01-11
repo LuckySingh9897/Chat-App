@@ -78,4 +78,9 @@ document.querySelector("#Send-Location").addEventListener('click', function() {
 
 })
 // console.log(username)
-socket.emit('Join',{username,room});
+socket.emit('Join',{username,room},(error)=>{
+if(error){
+  alert(error);
+  location.href="/"
+}
+});
