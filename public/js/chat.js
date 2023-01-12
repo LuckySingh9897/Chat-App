@@ -10,27 +10,63 @@ const $message = document.querySelector('#message');
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const locationmessageTemplate = document.querySelector('#location-message-template').innerHTML;
 
+const sidebarTemplate=document.querySelector('#sidebar-template').innerHTML;
+
+
 const {username,room}=Qs.parse(location.search, {ignoreQueryPrefix:true})
 console.log(Qs.parse(location.search, {ignoreQueryPrefix:true}))
+
+const autoscroll=()=>{
+
+  const $newMessage= $message.lastElementChild
+
+
+  const newMessageStyles= getComputedStyle($newMessage)
+  const newMessageMargin= parseInt(newMessageStyles.marginBottom)
+  const newMessageHeight= $newMessage.offsetHeight+ newMessageMargin
+
+  const visibleHeight= $message.offsetHeight
+  const containerHeight= $message.scrollHeight
+
+  const scrollOffset=  $message.scrollTop +visibleHeight
+
+  if(containerHeight-newMessageHeight<=scrollOffset){
+    $message.scrollTop= $message.scrollHeight
+  }
+}
+
+
 socket.on('locationMessage', function(message) {
 
   console.log(message);
   const html = Mustache.render(locationmessageTemplate, {
+    username : message.username,
     url:message.url
     , timeLocation: moment(message.createdAt).format('h:mm:a')
   });
   $message.insertAdjacentHTML('beforeend', html);
 
+  autoscroll()
+
 })
 socket.on('Message', function(message) {
   console.log(message);
   const html = Mustache.render(messageTemplate, {
+    username: message.username,
     time:  moment(message.createdAt).format('h:mm:a')
   ,  message1: message.text
 
   });
   $message.insertAdjacentHTML('beforeend', html);
+autoscroll()
+})
 
+socket.on('roomData',function({room, users}){
+   const html=  Mustache.render(sidebarTemplate,{
+     room,
+     users
+   })
+   document.querySelector('#sidebar').innerHTML=html
 })
 
 document.querySelector("#message-form").addEventListener('submit', function(e) {

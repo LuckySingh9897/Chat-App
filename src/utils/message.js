@@ -1,11 +1,13 @@
-const generateMessage= function(text){
+const generateMessage= function(username,text){
   return {
+    username,
     text,
     createdAt : new Date().getTime()
   }
 }
-const generateLocationMessage= function(url){
+const generateLocationMessage= function(username,url){
   return {
+    username,
     url,
     createdAt: new Date().getTime()
   }
