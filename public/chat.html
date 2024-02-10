@@ -46,7 +46,9 @@
   <p>{{message1}}  </p>
   </div>
 </script>
+
 <script id="location-message-template" type="text/html">
+  
   <div class="message">
     <p>
 
@@ -78,7 +80,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
+
+
+//it is a client side version of the library when we load thiss in client side will get all its access to all of the stuff from library it needs. 
     <script src="/socket.io/socket.io.js"></script>
+
+    // becaz of above line chat.js will now have access to some function like io();
     <script src="/js/chat.js"></script>
   </body>
 </html>
